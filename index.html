@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Almendra Pâtisserie: tartas francesas compuestas a mano en Santo Domingo. Concepto demo de Sandscap (diseño Panadería 01).">
+<meta property="og:title" content="Almendra Pâtisserie">
+<meta property="og:image" content="https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/fcd81f0b-085b-413d-afb3-fc099c51c887.webp">
+<title>Almendra Pâtisserie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: editorial patisserie. Photoreal footage scrubbed by scroll in two sticky chapters
+   (1: fruit falls into the tart · 2: cream is piped, the tart splits into labeled layers, glaze is poured),
+   then the seasonal lineup on travertine, a working carta and an order drawer.
+   Deliberately single-theme: the footage is shot on warm ivory, so the page matches it exactly. */
+:root{
+  --paper:#F1E8D8;      /* page ground = footage backdrop */
+  --paper-2:#F8F2E7;    /* raised surfaces */
+  --ink:#2A1C15;        /* espresso text */
+  --cocoa:#6E5446;      /* secondary text */
+  --line:#D9CBB5;       /* hairlines */
+  --berry:#5A2A1E;      /* chocolate accent (buttons) */
+  --gold:#B9843F;       /* crust / detail */
+  --f-display:"Libre Caslon Display","Didot","Bodoni 72",Georgia,serif;
+  --f-body:"Cormorant Garamond","Garamond","Times New Roman",serif;
+  --f-ui:"Jost","Futura","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --gutter:clamp(16px,4vw,48px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:19px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.eyebrow{font-family:var(--f-ui);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--cocoa)}
+.display{font-family:var(--f-display);font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:1.02;text-wrap:balance;margin:0}
+.btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--f-ui);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:.95em 1.6em;border-radius:999px;border:1px solid var(--ink);background:transparent;text-decoration:none;transition:background .3s,color .3s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.solid{background:var(--berry);border-color:var(--berry);color:var(--paper-2)}
+.btn.solid:hover{background:var(--ink);border-color:var(--ink)}
+.wrap{padding-inline:var(--gutter)}
+
+/* header */
+.demo-ribbon{background:var(--ink);color:var(--paper);font-family:var(--f-ui);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 16px}
+.demo-ribbon a{color:var(--paper)}
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:12px}
+.hleft{display:flex;align-items:center;gap:14px}
+.iconbtn{background:none;border:0;padding:6px;display:inline-grid;place-items:center;position:relative}
+.small-mark{font-family:var(--f-display);font-size:15px;letter-spacing:.12em}
+.wordmark{text-align:center;text-decoration:none;line-height:1}
+.wordmark .w{font-family:var(--f-display);font-size:clamp(24px,3vw,32px);letter-spacing:.14em;display:block;position:relative}
+.wordmark .w::before{content:"";position:absolute;left:50%;top:-7px;width:5px;height:5px;transform:translateX(-50%) rotate(45deg);border:1px solid var(--gold)}
+.wordmark .s{font-family:var(--f-body);font-style:italic;font-size:14px;color:var(--cocoa);letter-spacing:.06em}
+nav.main{display:flex;justify-content:flex-end;align-items:center;gap:clamp(12px,2vw,26px)}
+nav.main a.nl{font-family:var(--f-ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none}
+nav.main a.nl:hover{color:var(--gold)}
+.cart-count[hidden]{display:none}
+.cart-count{position:absolute;top:-2px;right:-4px;min-width:17px;height:17px;border-radius:9px;background:var(--berry);color:#fff;font-family:var(--f-ui);font-size:10px;display:grid;place-items:center;padding:0 4px}
+@media (max-width:860px){ nav.main a.nl,.small-mark{display:none} .hbar .btn.order{display:none} }
+
+/* one continuous shot: a single sticky stage, the footage is scrubbed by scroll and the copy crossfades over it */
+#story{position:relative;height:900vh}
+.stick{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);height:calc(100svh - 64px);overflow:hidden}
+.film{position:absolute;left:50%;top:0;height:100%;aspect-ratio:16/9;max-width:none;transform-origin:50% 100%;will-change:transform;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(transparent,#000 8%,#000 92%,transparent);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(transparent,#000 8%,#000 92%,transparent);mask-composite:intersect}
+.film video,.film img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.film img.poster{transition:opacity .4s}
+.ov{position:absolute;z-index:2;transition:opacity .45s,transform .45s}
+.ov.off{opacity:0;pointer-events:none;transform:translateY(10px)}
+.hero-copy{left:var(--gutter);top:50%;margin-top:-7em;display:grid;gap:18px;max-width:min(30ch,28vw)}
+.hero-copy h1{font-size:clamp(34px,3.6vw,56px)}
+.hero-copy p{margin:0;font-size:18px;color:var(--cocoa)}
+.hero-copy .lnk{font-family:var(--f-ui);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.hero-right{right:var(--gutter);top:40%;display:grid;gap:22px;max-width:min(14em,26vw)}
+.hero-right h2{font-family:var(--f-body);font-weight:500;font-size:clamp(26px,2.4vw,38px);line-height:1.1;margin:0;text-wrap:balance}
+.hero-foot{left:0;right:0;bottom:12px;text-align:center}
+.hero-foot a{font-family:var(--f-display);font-size:clamp(22px,2.4vw,32px);text-decoration:none}
+.hero-foot a span{font-family:var(--f-body);font-style:italic}
+.scroll-hint{display:block;margin:8px auto 0;width:1px;height:34px;background:linear-gradient(var(--ink),transparent);animation:hint 2.2s ease-in-out infinite}
+@keyframes hint{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+.capas-head{left:0;right:0;top:clamp(14px,3vh,34px);text-align:center;display:grid;gap:10px;justify-items:center}
+.capas-head h2{font-size:clamp(30px,4vw,58px)}
+.lab{position:absolute;display:flex;align-items:center;gap:10px;opacity:0;transition:opacity .5s,transform .5s;transform:translateX(-6px);white-space:nowrap}
+.lab.on{opacity:1;transform:none}
+.lab i{display:block;width:clamp(40px,7vw,110px);height:1px;background:var(--ink);position:relative}
+.lab i::before{content:"";position:absolute;left:-2px;top:-2px;width:5px;height:5px;border-radius:50%;background:var(--ink)}
+.lab b{font-family:var(--f-ui);font-weight:500;font-size:clamp(9px,.8vw,12px);letter-spacing:.18em;text-transform:uppercase;display:block}
+.lab em{font-family:var(--f-body);font-size:clamp(12px,1.1vw,17px);color:var(--cocoa);display:block}
+.side-arrow{top:58%;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--paper-2) 80%,transparent);display:grid;place-items:center;text-decoration:none}
+.side-arrow.l{left:var(--gutter)}.side-arrow.r{right:var(--gutter)}
+.sdots{left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:6px}
+.sdots i{width:18px;height:2px;background:var(--line);transition:background .3s}.sdots i.on{background:var(--ink)}
+@media (max-width:860px){
+  .hero-copy{top:14px;margin-top:0;max-width:calc(100% - 2*var(--gutter));gap:8px}
+  .hero-copy p,.hero-copy .lnk{display:none}
+  .hero-right{top:auto;bottom:14px;left:var(--gutter);right:var(--gutter);max-width:none;grid-template-columns:1fr auto;align-items:center;gap:12px}
+  .hero-right .eyebrow{display:none}
+  .hero-right h2{font-size:21px}
+  .hero-foot a{display:none}
+  .film{height:auto;width:200vw;top:auto;bottom:64px;left:34%}
+  .sdots{display:none}
+  .lab em{display:none}
+  .lab b{font-size:9px;letter-spacing:.12em}
+  .lab i{width:20px}
+  .side-arrow{display:none}
+}
+
+/* collection */
+#coleccion{position:relative;padding-block:clamp(40px,6vw,80px) 0}
+.col-stage{position:relative}
+.col-img{position:relative;aspect-ratio:1344/752;max-width:100%}
+.col-img img{width:100%;height:100%;object-fit:cover;display:block;-webkit-mask-image:linear-gradient(transparent,#000 5%,#000 92%,transparent);mask-image:linear-gradient(transparent,#000 5%,#000 92%,transparent)}
+.col-copy{position:absolute;left:var(--gutter);top:clamp(16px,5%,64px);z-index:2;display:grid;gap:12px;max-width:min(26ch,40%)}
+.col-copy h2{font-size:clamp(28px,3.6vw,56px)}
+.col-copy .it{font-style:italic;font-size:clamp(17px,1.4vw,22px);color:var(--cocoa);margin:0}
+.col-copy .btn{justify-self:start}
+.tag{position:absolute;font-family:var(--f-ui);font-size:clamp(9px,.85vw,12px);letter-spacing:.2em;text-transform:uppercase;transform:translateX(-50%);white-space:nowrap}
+.col-foot{text-align:center;padding-block:28px 10px}
+.col-foot .eyebrow{display:block;margin-bottom:6px}
+.col-foot h3{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:clamp(24px,3vw,40px);margin:0}
+@media (max-width:760px){
+  .col-copy{position:static;max-width:none;padding-inline:var(--gutter);margin-bottom:12px}
+  .col-scroll{overflow-x:auto;scroll-snap-type:x mandatory}
+  .col-img{width:200vw;max-width:none}
+}
+/* carta */
+#carta{padding-block:clamp(56px,8vw,110px);background:var(--paper-2);border-block:1px solid var(--line)}
+.sec-head{display:grid;gap:12px;margin-bottom:clamp(28px,4vw,52px);max-width:62ch}
+.sec-head h2{font-size:clamp(30px,3.8vw,54px)}
+.sec-head p{margin:0;color:var(--cocoa)}
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(20px,2.5vw,36px)}
+.item{display:grid;grid-template-rows:auto auto 1fr auto;gap:10px;border-top:1px solid var(--ink);padding-top:16px;min-width:0}
+.item .thumb{background:var(--paper);border-radius:2px;aspect-ratio:4/3;display:grid;place-items:center;overflow:hidden;max-width:100%}
+.item .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.item h3{margin:6px 0 0;font-family:var(--f-display);font-weight:400;font-size:24px;letter-spacing:.02em;text-transform:uppercase;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.item h3 small{font-family:var(--f-body);text-transform:none;font-style:italic;font-size:17px;color:var(--cocoa);letter-spacing:0}
+.item p{margin:0;color:var(--cocoa);font-size:17px}
+.item .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.sizes{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.sizes button{border:0;background:none;border-radius:999px;padding:7px 12px;font-family:var(--f-ui);font-size:11px;letter-spacing:.08em;color:var(--cocoa)}
+.sizes button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.price{font-family:var(--f-ui);font-size:15px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.add{padding:.8em 1.2em}
+
+/* atelier */
+#atelier{padding-block:clamp(64px,9vw,120px)}
+.atelier-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:start}
+.atelier-grid p{color:var(--cocoa);margin:0 0 1em;max-width:58ch}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink);margin-top:28px}
+.facts div{padding:18px 14px 0 0}
+.facts b{display:block;font-family:var(--f-display);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1}
+.facts span{font-family:var(--f-ui);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cocoa)}
+.visit{background:var(--paper-2);border:1px solid var(--line);padding:clamp(22px,3vw,36px)}
+.visit h3{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:24px;margin:0 0 14px}
+.hours{width:100%;border-collapse:collapse;font-family:var(--f-ui);font-size:14px;font-variant-numeric:tabular-nums}
+.hours td{padding:9px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right}
+@media (max-width:800px){.atelier-grid{grid-template-columns:1fr}}
+
+footer.site{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:var(--f-ui);font-size:12px;letter-spacing:.06em;color:var(--cocoa);border-top:1px solid var(--line)}
+
+/* ---------- cart drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(42,28,21,.35);z-index:60;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--paper);z-index:61;transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);border-left:1px solid var(--line)}
+.drawer.on{transform:none}
+.dhead{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)}
+.dhead h3{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:22px;margin:0}
+.dbody{overflow:auto;padding:8px 22px 18px}
+.line{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.line .n{font-family:var(--f-display);text-transform:uppercase;font-size:16px}
+.line .m{font-style:italic;color:var(--cocoa);font-size:16px}
+.qty{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-ui);font-size:13px}
+.qty button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--paper-2)}
+.empty{padding:40px 0;text-align:center;color:var(--cocoa);font-style:italic}
+.form{display:grid;gap:12px;margin-top:18px}
+.form label{display:grid;gap:5px;font-family:var(--f-ui);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cocoa)}
+.form input,.form select,.form textarea{font-family:var(--f-ui);font-size:15px;letter-spacing:0;text-transform:none;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:2px;padding:10px 12px;width:100%}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;border-radius:999px;padding:9px;font-family:var(--f-ui);font-size:12px;letter-spacing:.06em}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.dfoot{padding:16px 22px 20px;border-top:1px solid var(--line);display:grid;gap:8px;font-family:var(--f-ui);font-size:14px;font-variant-numeric:tabular-nums}
+.dfoot .r{display:flex;justify-content:space-between}
+.dfoot .tot{font-size:17px;font-weight:500;padding-top:6px;border-top:1px solid var(--line)}
+.dfoot .btn{justify-content:center;margin-top:8px;font-size:12px}
+.note{font-size:13px;color:var(--cocoa);font-family:var(--f-ui)}
+.err{color:var(--berry);font-family:var(--f-ui);font-size:13px;min-height:1em}
+.done{padding:28px 0;display:grid;gap:14px}
+.done h4{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:26px;margin:0}
+.erp{border:1px dashed var(--gold);padding:14px 16px;font-family:var(--f-ui);font-size:13px;line-height:1.55;color:var(--cocoa);background:var(--paper-2)}
+.erp b{color:var(--ink);font-weight:500}
+.erp ol{margin:6px 0 0;padding-left:18px}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--paper);font-family:var(--f-ui);font-size:13px;letter-spacing:.04em;padding:12px 18px;border-radius:999px;z-index:70;transition:all .35s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #hero,#layers{height:auto}
+  .scene .stick{position:relative;top:0;height:auto;min-height:620px}
+  .scroll-hint{animation:none}
+  .piece,.drawer,.scrim,.toast{transition:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #story{height:auto}
+  .stick{position:relative;top:0;height:min(100svh,820px)}
+  .ov{transition:none}
+  .lab{opacity:1;transform:none;transition:none}
+  .scroll-hint{animation:none}
+  .drawer,.scrim,.toast{transition:none}
+}
+</style>
+
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<div class="demo-ribbon">Concepto demo · marca ficticia · diseño <a href="#carta">Panadería 01</a> del catálogo Sandscap</div>
+<header class="site">
+  <div class="hbar wrap">
+    <div class="hleft">
+      <button class="iconbtn" aria-label="Menú" id="menuBtn"><svg width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 1h22M0 7h22M0 13h22"/></svg></button>
+      <span class="small-mark">ALMENDRA</span>
+    </div>
+    <a class="wordmark" href="#story" aria-label="Almendra Pâtisserie, inicio"><span class="w">ALMENDRA</span><span class="s">pâtisserie</span></a>
+    <nav class="main" aria-label="Principal">
+      <a class="nl" href="#coleccion">Tartas</a>
+      <a class="nl" href="#atelier">Atelier</a>
+      <a class="nl" href="#story">Temporada</a>
+      <a class="btn order" href="#carta">Pedir</a>
+      <button class="iconbtn" id="cartBtn" aria-label="Abrir pedido"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 6h14l-1.2 11H4.2z"/><path d="M7 6a3 3 0 0 1 6 0"/></svg><span class="cart-count" id="cartCount" hidden>0</span></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Chapters 1 + 2: one continuous shot -->
+  <section id="story" aria-label="Capítulos 1 y 2">
+    <div class="stick">
+      <div class="film" id="film">
+        <img class="poster" src="https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/fcd81f0b-085b-413d-afb3-fc099c51c887.webp" alt="Una base de tarta sablée vacía flota mientras fresas, frambuesas y arándanos caen hacia ella" width="1344" height="752">
+        <video id="v" muted playsinline preload="auto" aria-hidden="true" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/df8aafd2-97b3-4311-ba07-f8649b6c984a.mp4"></video>
+        <div id="labs"></div>
+      </div>
+      <div class="ov hero-copy" id="s1a">
+        <span class="eyebrow">Capítulo 1 — La fresa</span>
+        <h1 class="display">«Compuesta<br>a mano.»</h1>
+        <p>Cada tarta se arma en nuestro obrador de Piantini la mañana en que la recoges: masa sablée en molde acanalado, crema de vainilla y fresas de Constanza elegidas una a una.</p>
+        <a class="lnk" href="#atelier">Nuestro método</a>
+      </div>
+      <div class="ov hero-right" id="s1b">
+        <span class="eyebrow">Capítulo 1</span>
+        <h2>Tartas francesas, armadas un detalle a la vez.</h2>
+        <a class="btn" href="#capas" id="toCapas">Descubrir <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="ov hero-foot" id="s1c"><a href="#coleccion">Ver la <span>colección</span></a><span class="scroll-hint" aria-hidden="true"></span></div>
+      <div class="ov capas-head off" id="capas">
+        <span class="eyebrow">Capítulo 2 — La composición</span>
+        <h2 class="display">Precisión en cada capa.</h2>
+      </div>
+      <a class="ov side-arrow l off" id="arL" href="#story" aria-label="Volver al inicio"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 2 4 7l5 5"/></svg></a>
+      <a class="ov side-arrow r off" id="arR" href="#coleccion" aria-label="Ir a la colección"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m5 2 5 5-5 5"/></svg></a>
+      <div class="ov sdots" aria-hidden="true"><i id="d0" class="on"></i><i id="d1"></i><i id="d2"></i><i id="d3"></i></div>
+    </div>
+  </section>
+
+  <!-- Chapter 3: the seasonal lineup -->
+  <section id="coleccion" aria-labelledby="h2c">
+    <div class="col-stage">
+      <div class="col-copy">
+        <span class="eyebrow">Capítulo 3 — La colección</span>
+        <h2 class="display" id="h2c">Una tarta para cada temporada.</h2>
+        <p class="it">La colección de otoño.</p>
+        <a class="btn solid" href="#carta">Ver la colección <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="col-scroll">
+        <div class="col-img">
+          <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/abb81250-6a99-43ba-b30b-0ddc3985fab3.webp" alt="Seis tartas sobre pedestales de travertino: fresa, limón, frambuesa, chocolate, pistacho y frutos rojos" width="1344" height="752">
+          <span class="tag" style="left:27.5%;top:41%">Fraise</span>
+          <span class="tag" style="left:46%;top:24%">Citron</span>
+          <span class="tag" style="left:65.5%;top:4.5%">Framboise</span>
+          <span class="tag" style="left:88%;top:15.5%">Chocolat</span>
+          <span class="tag" style="left:79%;top:89%">Pistache</span>
+          <span class="tag" style="left:50.5%;top:96%">Fruits rouges</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-foot wrap"><span class="eyebrow">Capítulo 4 — La carta</span><h3>Descubre la colección</h3></div>
+  </section>
+
+  <!-- Carta -->
+  <section id="carta" aria-labelledby="h2m">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">La carta</span>
+        <h2 class="display" id="h2m">Pide hoy, recoge mañana.</h2>
+        <p>Las individuales salen cada mañana desde las 8:00. Las enteras (24 cm, 8 porciones) se hornean por encargo con 24 horas de anticipación.</p>
+      </div>
+      <div class="menu" id="menu"></div>
+    </div>
+  </section>
+
+  <!-- Atelier -->
+  <section id="atelier" class="wrap" aria-labelledby="h2a">
+    <div class="atelier-grid">
+      <div>
+        <span class="eyebrow">El atelier</span>
+        <h2 class="display" id="h2a" style="font-size:clamp(30px,3.8vw,54px);margin:12px 0 22px">Mantequilla, paciencia y un horno de piso.</h2>
+        <p>Almendra nació de una idea sencilla: hacer en Santo Domingo la tarta que uno encuentra en una pâtisserie de barrio en Lyon, con la fruta de aquí. La masa reposa dos días antes de entrar al molde. La crema se cocina en pequeñas tandas. La fruta se coloca a mano, pieza por pieza, frente al mostrador.</p>
+        <p>Trabajamos con fresas de Constanza, cacao de San Francisco de Macorís y limones criollos de Baní.</p>
+        <div class="facts">
+          <div><b>36 h</b><span>reposo de la masa</span></div>
+          <div><b>82%</b><span>grasa en la mantequilla</span></div>
+          <div><b>5:00</b><span>primer horneado</span></div>
+        </div>
+      </div>
+      <aside class="visit" aria-label="Visítanos">
+        <h3>Visítanos</h3>
+        <p style="margin:0 0 14px;color:var(--cocoa)">Calle Rafael Augusto Sánchez 41, Piantini, Santo Domingo</p>
+        <table class="hours">
+          <tr><td>Martes a viernes</td><td>8:00 – 19:00</td></tr>
+          <tr><td>Sábado</td><td>8:00 – 20:00</td></tr>
+          <tr><td>Domingo</td><td>9:00 – 14:00</td></tr>
+          <tr><td>Lunes</td><td>Cerrado</td></tr>
+        </table>
+        <p class="note" style="margin-top:14px">Pedidos por WhatsApp: <span style="user-select:all">809-555-0142</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <footer class="site wrap">
+    <span>© Almendra Pâtisserie · Concepto demo</span>
+    <span>Diseño Panadería 01 · Sandscap</span>
+  </footer>
+</main>
+
+<!-- Cart -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Tu pedido" aria-hidden="true">
+  <div class="dhead"><h3>Tu pedido</h3><button class="iconbtn" id="closeCart" aria-label="Cerrar"><svg width="16" height="16" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.4"><path d="m2 2 12 12M14 2 2 14"/></svg></button></div>
+  <div class="dbody" id="dbody"></div>
+  <div class="dfoot" id="dfoot"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- the continuous shot: 4 clips joined (fall · cream · layers · glaze), 5 s each ---------- */
+const LABS=[ // % of the 16:9 frame, measured on the exploded frame
+  {x:61.5,y:21,t:'Frutas de temporada',s:'fresa de Constanza, frambuesa, arándano',at:.70},
+  {x:60.5,y:36,t:'Glaseado de fresa',s:'gel brillante, poco azúcar',at:.715},
+  {x:60.5,y:47.5,t:'Crème pâtissière',s:'vainilla de Madagascar',at:.73},
+  {x:60.5,y:60.5,t:'Frangipane',s:'almendra tostada, horneada en el molde',at:.745},
+  {x:62,y:77,t:'Pâte sucrée',s:'sablée de mantequilla, 3 mm',at:.76},
+  {x:56,y:3,t:'Nappage',s:'brillo final, vertido a mano',at:.86},
+];
+$('#labs').innerHTML=LABS.map((l,i)=>`<div class="lab" id="lab${i}" style="left:${l.x}%;top:${l.y}%"><i></i><span><b>${l.t}</b><em>${l.s}</em></span></div>`).join('');
+const video=$('#v'),poster=$('#film .poster');
+let ready=false,target=0,busy=false;
+const go=()=>{if(!ready||busy)return;const t=target*(video.duration-0.05);if(Math.abs(video.currentTime-t)<0.02)return;busy=true;video.currentTime=t};
+video.addEventListener('seeked',()=>{busy=false;go()});
+video.addEventListener('loadeddata',()=>{ready=true;video.pause();poster.style.opacity=0;go()});
+const url=video.dataset.src;
+fetch(url).then(r=>{if(!r.ok)throw 0;return r.blob()}).then(b=>{video.src=URL.createObjectURL(b)}).catch(()=>{video.src=url});
+
+const story=$('#story'),film=$('#film');
+const show=(id,on)=>document.getElementById(id).classList.toggle('off',!on);
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function prog(el){const r=el.getBoundingClientRect();const tot=r.height-innerHeight;return tot>0?clamp(-r.top/tot):0}
+let last=-1;
+function frame(){
+  const p=reduce?.9:prog(story);
+  target=clamp(p/.94);go();
+  if(p!==last){last=p;
+    const narrow=innerWidth<=860;
+    // the shot never cuts: the stage only eases down a little to make room for the chapter 2 title
+    const k=ease(clamp((p-.2)/.1)),sc=1-(narrow?0:.17)*k;
+    film.style.transform=`translateX(-50%) scale(${sc.toFixed(4)})`;
+    const one=p<.2;['s1a','s1b','s1c'].forEach(id=>show(id,one));
+    ['capas','arL','arR'].forEach(id=>show(id,p>=.24));
+    LABS.forEach((l,i)=>document.getElementById('lab'+i).classList.toggle('on',p>=l.at));
+    const ch=p<.25?0:p<.5?1:p<.75?2:3;for(let i=0;i<4;i++)document.getElementById('d'+i).classList.toggle('on',i===ch);
+  }
+  if(!reduce)requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+$('#toCapas').addEventListener('click',e=>{e.preventDefault();const y=story.offsetTop+(story.offsetHeight-innerHeight)*.3;scrollTo({top:y,behavior:reduce?'auto':'smooth'})});
+
+/* ---------- Carta + cart ---------- */
+const MENU=[
+  {id:'fraises',n:'Tarte aux fraises',es:'Fresa',d:'Fresas de Constanza, frambuesa y arándano sobre crema de vainilla y frangipane.',p:[395,2450]},
+  {id:'citron',n:'Tarte au citron',es:'Limón',d:'Curd de limón criollo, merengue italiano flameado al momento.',p:[350,2150]},
+  {id:'framboise',n:'Tarte framboise',es:'Frambuesa',d:'Frambuesas enteras sobre crème légère y un fondo de gel de frambuesa.',p:[425,2650]},
+  {id:'pistache',n:'Pistache-framboise',es:'Pistacho',d:'Crema de pistacho de Bronte, frambuesa fresca y pistacho tostado.',p:[450,2800]},
+  {id:'chocolat',n:'Tarte au chocolat',es:'Chocolate',d:'Ganache de cacao 70% de San Francisco de Macorís, hoja de oro.',p:[425,2600]},
+  {id:'chinola',n:'Tarte chinola',es:'Maracuyá',d:'Crema de chinola con sus semillas, merengue y hierbabuena.',p:[375,2300]},
+];
+const IMG={"k1": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/fcd81f0b-085b-413d-afb3-fc099c51c887.webp", "coleccion": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/abb81250-6a99-43ba-b30b-0ddc3985fab3.webp", "fraises": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/6c862ec4-64ac-4ade-b244-5993a7cf3161.webp", "citron": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/6a4daf2d-5e4e-4b2c-94b9-ec786a08f6cf.webp", "framboise": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/9621137e-5deb-4401-a619-8bcd5f8d17a6.webp", "pistache": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/79f48a5c-8890-41db-b0f4-ca9fe3c358cf.webp", "chocolat": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/9eda7c8a-866a-4a93-890d-1e1aab9c38f7.webp", "chinola": "https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/59be32b3-918f-4dcf-9a79-738be5fd16db.webp"};
+const SIZES=['Individual · 10 cm','Entera · 24 cm'];
+const fmt=n=>'RD$ '+n.toLocaleString('es-DO');
+const sel={};
+$('#menu').innerHTML=MENU.map((m,i)=>{sel[m.id]=0;
+  return `<article class="item"><div class="thumb"><img src="${IMG[m.id]}" alt="${m.n}" loading="lazy" width="900" height="678"></div>
+  <h3>${m.n} <small>${m.es}</small></h3><p>${m.d}</p>
+  <div class="row"><div class="sizes" role="group" aria-label="Tamaño de ${m.n}">${SIZES.map((s,j)=>`<button type="button" data-id="${m.id}" data-s="${j}" aria-pressed="${j===0}">${j?'Entera':'Individual'}</button>`).join('')}</div>
+  <span class="price" id="pr-${m.id}">${fmt(m.p[0])}</span></div>
+  <button class="btn solid add" data-add="${m.id}">Añadir al pedido</button></article>`}).join('');
+$('#menu').addEventListener('click',e=>{
+  const sb=e.target.closest('.sizes button');
+  if(sb){const id=sb.dataset.id;sel[id]=+sb.dataset.s;sb.parentNode.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b===sb));$('#pr-'+id).textContent=fmt(MENU.find(m=>m.id===id).p[sel[id]]);return;}
+  const ab=e.target.closest('[data-add]');
+  if(ab){const id=ab.dataset.add;const key=id+':'+sel[id];const ex=cart.find(c=>c.key===key);ex?ex.q++:cart.push({key,id,s:sel[id],q:1});
+    save();renderCart();toast(`${MENU.find(m=>m.id===id).n} (${sel[id]?'entera':'individual'}) añadida`);}
+});
+let cart=[];try{cart=JSON.parse(localStorage.getItem('almendra-cart')||'[]')}catch(e){cart=[]}
+let mode='pick',placed=null;
+function save(){try{localStorage.setItem('almendra-cart',JSON.stringify(cart))}catch(e){}}
+function totals(){const sub=cart.reduce((a,c)=>a+MENU.find(m=>m.id===c.id).p[c.s]*c.q,0);const del=mode==='del'&&sub?250:0;const itbis=Math.round(sub*.18);return{sub,del,itbis,tot:sub+del+itbis}}
+function tomorrow(){const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)}
+function renderCart(){
+  const n=cart.reduce((a,c)=>a+c.q,0);const cc=$('#cartCount');cc.hidden=!n;cc.textContent=n;
+  const body=$('#dbody'),foot=$('#dfoot');
+  if(placed){body.innerHTML=`<div class="done"><span class="eyebrow">Pedido de prueba</span><h4>${placed.no} registrado</h4>
+    <p style="margin:0;color:var(--cocoa)">${placed.name}, tu pedido queda para el ${placed.date} (${placed.mode}). Total ${fmt(placed.tot)}.</p>
+    <div class="erp"><b>Con el ERP Sandscap detrás</b>, este pedido entraría solo a:<ol><li>Plan de producción del ${placed.date}: ${placed.lines}</li><li>Descuento de inventario: mantequilla, almendra, fruta</li><li>Factura con ITBIS y comprobante fiscal</li><li>Ruta de entrega o lista de retiro en tienda</li></ol></div></div>`;
+    foot.innerHTML=`<button class="btn solid" id="again">Hacer otro pedido</button>`;$('#again').onclick=()=>{placed=null;renderCart()};return;}
+  if(!cart.length){body.innerHTML=`<p class="empty">Tu pedido está vacío. Elige una tarta de la carta.</p>`;foot.innerHTML=`<a class="btn solid" href="#carta" id="toMenu">Ver la carta</a>`;$('#toMenu').onclick=closeCart;return;}
+  const hasWhole=cart.some(c=>c.s===1);
+  body.innerHTML=cart.map((c,i)=>{const m=MENU.find(x=>x.id===c.id);return `<div class="line"><span class="n">${m.n}</span><span class="price">${fmt(m.p[c.s]*c.q)}</span>
+   <span class="m">${SIZES[c.s]}</span><span class="qty"><button data-q="${i}" data-d="-1" aria-label="Quitar uno">−</button>${c.q}<button data-q="${i}" data-d="1" aria-label="Añadir uno">+</button></span></div>`}).join('')+
+   `<div class="form">
+     <div class="seg" role="group" aria-label="Entrega"><button type="button" data-m="pick" aria-pressed="${mode==='pick'}">Recoger en Piantini</button><button type="button" data-m="del" aria-pressed="${mode==='del'}">Delivery</button></div>
+     <label for="fDate">Fecha<input id="fDate" type="date" min="${tomorrow()}" value="${tomorrow()}"></label>
+     ${hasWhole?'<span class="note">Las tartas enteras necesitan 24 horas de anticipación.</span>':''}
+     <label for="fName">Nombre<input id="fName" autocomplete="name" placeholder="Ana Martínez"></label>
+     <label for="fPhone">WhatsApp<input id="fPhone" inputmode="tel" placeholder="809-555-0000"></label>
+     ${mode==='del'?'<label for="fAddr">Dirección<input id="fAddr" placeholder="Calle, número, sector"></label>':''}
+     <label for="fNote">Mensaje en la tarta (opcional)<input id="fNote" maxlength="30" placeholder="Feliz cumpleaños, Lucía"></label>
+     <span class="err" id="fErr"></span></div>`;
+  const t=totals();
+  foot.innerHTML=`<div class="r"><span>Subtotal</span><span>${fmt(t.sub)}</span></div>${t.del?`<div class="r"><span>Delivery</span><span>${fmt(t.del)}</span></div>`:''}<div class="r"><span>ITBIS 18%</span><span>${fmt(t.itbis)}</span></div><div class="r tot"><span>Total</span><span>${fmt(t.tot)}</span></div><button class="btn solid" id="place">Confirmar pedido</button>`;
+  $('#place').onclick=place;
+}
+$('#dbody').addEventListener('click',e=>{
+  const q=e.target.closest('[data-q]');if(q){const c=cart[+q.dataset.q];c.q+=+q.dataset.d;if(c.q<1)cart.splice(+q.dataset.q,1);save();renderCart();return;}
+  const m=e.target.closest('[data-m]');if(m){mode=m.dataset.m;renderCart();}
+});
+function place(){
+  const name=$('#fName').value.trim(),ph=$('#fPhone').value.replace(/\D/g,''),date=$('#fDate').value,addr=$('#fAddr')?.value.trim();
+  const err=$('#fErr');
+  if(!name){err.textContent='Escribe tu nombre para el pedido.';$('#fName').focus();return}
+  if(ph.length<10){err.textContent='El WhatsApp debe tener 10 dígitos, por ejemplo 809-555-0000.';$('#fPhone').focus();return}
+  if(mode==='del'&&!addr){err.textContent='Escribe la dirección de entrega.';$('#fAddr').focus();return}
+  const d=new Date(date+'T12:00');const t=totals();
+  placed={no:'ALM-'+(2400+Math.floor(Math.random()*600)),name,date:d.toLocaleDateString('es-DO',{weekday:'long',day:'numeric',month:'long'}),mode:mode==='del'?'delivery':'retiro en Piantini',tot:t.tot,
+    lines:cart.map(c=>`${c.q}× ${MENU.find(m=>m.id===c.id).es.toLowerCase()} ${c.s?'entera':'ind.'}`).join(', ')};
+  cart=[];save();renderCart();
+}
+function openCart(){$('#drawer').classList.add('on');$('#drawer').setAttribute('aria-hidden','false');$('#scrim').classList.add('on');renderCart();setTimeout(()=>$('#closeCart').focus(),50)}
+function closeCart(){$('#drawer').classList.remove('on');$('#drawer').setAttribute('aria-hidden','true');$('#scrim').classList.remove('on')}
+$('#cartBtn').onclick=openCart;$('#closeCart').onclick=closeCart;$('#scrim').onclick=closeCart;
+addEventListener('keydown',e=>{if(e.key==='Escape')closeCart()});
+$('#menuBtn').onclick=()=>document.getElementById('carta').scrollIntoView({behavior:reduce?'auto':'smooth'});
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)}
+renderCart();
+
+})();
+</script>
+
+</body>
+</html>
