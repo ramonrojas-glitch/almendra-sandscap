@@ -128,8 +128,11 @@ nav.main a.nl:hover{color:var(--gold)}
 .col-foot h3{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:clamp(24px,3vw,40px);margin:0}
 @media (max-width:760px){
   .col-copy{position:static;max-width:none;padding-inline:var(--gutter);margin-bottom:12px}
-  .col-scroll{overflow-x:auto;scroll-snap-type:x mandatory}
-  .col-img{width:200vw;max-width:none}
+  /* the six tarts fill the photo from ~15% to the right edge: crop the empty wall on the left so the
+     whole lineup fits the screen, centred, with no sideways scrolling */
+  .col-scroll{overflow:hidden}
+  .col-img{width:118vw;max-width:none;margin-left:-17.5vw}
+  .tag{font-size:9px;letter-spacing:.14em}
 }
 /* carta */
 #carta{padding-block:clamp(56px,8vw,110px);background:var(--paper-2);border-block:1px solid var(--line)}
