@@ -102,11 +102,14 @@ nav.main a.nl:hover{color:var(--gold)}
   .hero-right .eyebrow{display:none}
   .hero-right h2{font-size:21px}
   .hero-foot a{display:none}
-  .film{height:auto;width:200vw;top:auto;bottom:64px;left:34%}
+  /* the tart sits in the middle of the footage, so the frame is centred on the screen */
+  .film{height:auto;width:200vw;top:auto;bottom:64px;left:50%}
   .sdots{display:none}
   .lab em{display:none}
-  .lab b{font-size:9px;letter-spacing:.12em}
-  .lab i{width:20px}
+  /* labels sit right of the tart; on a phone they wrap so they stay inside the screen */
+  .lab{gap:6px;white-space:normal}
+  .lab b{font-size:9px;letter-spacing:.1em;line-height:1.25;max-width:21vw}
+  .lab i{width:14px;flex:none}
   .side-arrow{display:none}
 }
 
@@ -365,12 +368,24 @@ const LABS=[ // % of the 16:9 frame, measured on the exploded frame
 ];
 $('#labs').innerHTML=LABS.map((l,i)=>`<div class="lab" id="lab${i}" style="left:${l.x}%;top:${l.y}%"><i></i><span><b>${l.t}</b><em>${l.s}</em></span></div>`).join('');
 const video=$('#v'),poster=$('#film .poster');
-let ready=false,target=0,busy=false;
-const go=()=>{if(!ready||busy)return;const t=target*(video.duration-0.05);if(Math.abs(video.currentTime-t)<0.02)return;busy=true;video.currentTime=t};
+let ready=false,target=0,busy=false,busyT=0;
+// a seek that never reports back (iOS does this) must not freeze the scrub forever
+const go=()=>{if(!ready||!video.duration)return;if(busy&&performance.now()-busyT<300)return;const t=target*(video.duration-0.05);if(Math.abs(video.currentTime-t)<0.02){busy=false;return}busy=true;busyT=performance.now();video.currentTime=t};
 video.addEventListener('seeked',()=>{busy=false;go()});
-video.addEventListener('loadeddata',()=>{ready=true;video.pause();poster.style.opacity=0;go()});
-const url=video.dataset.src;
-fetch(url).then(r=>{if(!r.ok)throw 0;return r.blob()}).then(b=>{video.src=URL.createObjectURL(b)}).catch(()=>{video.src=url});
+function markReady(){if(ready)return;ready=true;video.pause();poster.style.opacity=0;go()}
+video.addEventListener('loadeddata',markReady);
+video.addEventListener('canplay',markReady);
+// iOS Safari loads the metadata but decodes no frame until play() has run once: play muted, pause at once
+function prime(){if(ready)return;const pr=video.play();if(pr&&pr.then)pr.then(()=>{video.pause();markReady()}).catch(()=>{})}
+video.addEventListener('loadedmetadata',prime);
+addEventListener('touchstart',prime,{once:true,passive:true});
+addEventListener('scroll',prime,{once:true,passive:true});
+// phones get a lighter cut of the same footage (v-movil.mp4, next to this page) streamed directly, so the
+// cream and layer scenes are there as soon as you scroll instead of after an 8.5 MB download
+const full=video.dataset.src,phone=matchMedia('(max-width:860px)').matches;
+video.addEventListener('error',()=>{if(video.dataset.fb)return;video.dataset.fb=1;video.src=full;video.load()});
+if(phone){video.src='v-movil.mp4';video.load()}
+else fetch(full).then(r=>{if(!r.ok)throw 0;return r.blob()}).then(b=>{video.src=URL.createObjectURL(b)}).catch(()=>{video.src=full});
 
 const story=$('#story'),film=$('#film');
 const show=(id,on)=>document.getElementById(id).classList.toggle('off',!on);
