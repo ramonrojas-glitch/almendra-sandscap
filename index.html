@@ -107,7 +107,7 @@ nav.main a.nl:hover{color:var(--gold)}
   .hero-foot a{display:none}
   /* the tart sits in the middle of the footage, so the frame is centred on the screen */
   /* a phone only ever shows the middle half of the shot, so it gets that half as its own video
-     (v-movil.mp4, 640×716 = the source's full pixels) instead of a 2× stretch of the whole frame */
+     (v-movil.mp4: the centre of the AI-upscaled shot, 1080×1208) instead of a 2× stretch of the whole frame */
   .film{height:auto;width:100vw;aspect-ratio:640/716;top:auto;bottom:64px;left:50%;
     -webkit-mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent)}
   .lab{left:calc((var(--x) - 25) * 2%)!important}
@@ -256,8 +256,8 @@ footer.site{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space
   <section id="story" aria-label="Capítulos 1 y 2">
     <div class="stick">
       <div class="film" id="film">
-        <img class="poster" src="https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/fcd81f0b-085b-413d-afb3-fc099c51c887.webp" alt="Una base de tarta sablée vacía flota mientras fresas, frambuesas y arándanos caen hacia ella" width="1344" height="752">
-        <video id="v" muted playsinline preload="auto" aria-hidden="true" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_2vcCuSri77rGnZvXrX11kOiFnns/df8aafd2-97b3-4311-ba07-f8649b6c984a.mp4"></video>
+        <img class="poster" src="poster.webp" alt="Una base de tarta sablée vacía flota mientras fresas, frambuesas y arándanos caen hacia ella" width="1920" height="1074">
+        <video id="v" muted playsinline preload="auto" aria-hidden="true" data-src="v-escritorio.mp4"></video>
         <div id="labs"></div>
       </div>
       <div class="ov hero-copy" id="s1a">
