@@ -106,7 +106,11 @@ nav.main a.nl:hover{color:var(--gold)}
   .hero-right h2{font-size:21px}
   .hero-foot a{display:none}
   /* the tart sits in the middle of the footage, so the frame is centred on the screen */
-  .film{height:auto;width:200vw;top:auto;bottom:64px;left:50%}
+  /* a phone only ever shows the middle half of the shot, so it gets that half as its own video
+     (v-movil.mp4, 640×716 = the source's full pixels) instead of a 2× stretch of the whole frame */
+  .film{height:auto;width:100vw;aspect-ratio:640/716;top:auto;bottom:64px;left:50%;
+    -webkit-mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent)}
+  .lab{left:calc((var(--x) - 25) * 2%)!important}
   .sdots{display:none}
   .lab em{display:none}
   /* labels sit right of the tart; on a phone they wrap so they stay inside the screen */
@@ -372,7 +376,7 @@ const LABS=[ // % of the 16:9 frame, measured on the exploded frame
   {x:62,y:77,t:'Pâte sucrée',s:'sablée de mantequilla, 3 mm',at:.76},
   {x:56,y:3,t:'Nappage',s:'brillo final, vertido a mano',at:.86},
 ];
-$('#labs').innerHTML=LABS.map((l,i)=>`<div class="lab" id="lab${i}" style="left:${l.x}%;top:${l.y}%"><i></i><span><b>${l.t}</b><em>${l.s}</em></span></div>`).join('');
+$('#labs').innerHTML=LABS.map((l,i)=>`<div class="lab" id="lab${i}" style="--x:${l.x};left:${l.x}%;top:${l.y}%"><i></i><span><b>${l.t}</b><em>${l.s}</em></span></div>`).join('');
 const video=$('#v'),poster=$('#film .poster');
 let ready=false,target=0,busy=false,busyT=0;
 // a seek that never reports back (iOS does this) must not freeze the scrub forever
