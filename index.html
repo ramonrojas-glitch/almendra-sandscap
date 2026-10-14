@@ -185,6 +185,12 @@ header.site.scrolled{box-shadow:0 6px 22px rgba(42,28,21,.12)}
 .hours td:last-child{text-align:right}
 @media (max-width:800px){.atelier-grid{grid-template-columns:1fr}}
 
+/* aviso de confianza: Brinco no guarda tarjetas */
+.fvault{flex:0 0 100%;display:flex;align-items:flex-start;gap:8px;margin:0 0 4px;font-family:var(--f-ui);font-size:12.5px;line-height:1.55;letter-spacing:.02em;color:var(--cocoa)}
+.fvault span{max-width:600px}
+.fvault svg,.vault-line svg{flex:none;margin-top:2px;color:var(--gold)}
+.fvault b,.vault-line b{font-weight:500;color:var(--ink)}
+.vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:4px 0 0;font-size:12px;line-height:1.45;letter-spacing:.01em;color:var(--cocoa);text-wrap:balance}
 footer.site{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:var(--f-ui);font-size:12px;letter-spacing:.06em;color:var(--cocoa);border-top:1px solid var(--line)}
 
 /* ---------- cart drawer ---------- */
@@ -360,6 +366,7 @@ footer.site{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space
   </section>
 
   <footer class="site wrap">
+    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Brinco no guarda tarjetas.</b> Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
     <span>© Almendra Pâtisserie · Concepto demo</span>
     <span>Diseño Panadería 01 · Sandscap</span>
   </footer>
@@ -485,7 +492,7 @@ function renderCart(){
      <label for="fNote">Mensaje en la tarta (opcional)<input id="fNote" maxlength="30" placeholder="Feliz cumpleaños, Lucía"></label>
      <span class="err" id="fErr"></span></div>`;
   const t=totals();
-  foot.innerHTML=`<div class="r"><span>Subtotal</span><span>${fmt(t.sub)}</span></div>${t.del?`<div class="r"><span>Delivery</span><span>${fmt(t.del)}</span></div>`:''}<div class="r"><span>ITBIS 18%</span><span>${fmt(t.itbis)}</span></div><div class="r tot"><span>Total</span><span>${fmt(t.tot)}</span></div><button class="btn solid" id="place">Confirmar pedido</button>`;
+  foot.innerHTML=`<div class="r"><span>Subtotal</span><span>${fmt(t.sub)}</span></div>${t.del?`<div class="r"><span>Delivery</span><span>${fmt(t.del)}</span></div>`:''}<div class="r"><span>ITBIS 18%</span><span>${fmt(t.itbis)}</span></div><div class="r tot"><span>Total</span><span>${fmt(t.tot)}</span></div><button class="btn solid" id="place">Confirmar pedido</button><p class="vault-line"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco <b>no guarda</b> tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>`;
   $('#place').onclick=place;
 }
 $('#dbody').addEventListener('click',e=>{
