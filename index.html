@@ -208,11 +208,14 @@ footer.site{padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space
 .line .n{font-family:var(--f-display);text-transform:uppercase;font-size:16px}
 .line .m{font-style:italic;color:var(--cocoa);font-size:16px}
 .qty{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-ui);font-size:13px}
+.tmsg{grid-column:1/-1;display:grid;gap:5px;margin-top:6px;font-family:var(--f-ui);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cocoa)}
+.tmsg i{font-style:normal;letter-spacing:.06em;text-transform:none}
+.tmsg input{font-family:var(--f-body);font-style:italic;font-size:17px;letter-spacing:0;text-transform:none;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:2px;padding:8px 10px;width:100%}
 .qty button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--paper-2)}
 .empty{padding:40px 0;text-align:center;color:var(--cocoa);font-style:italic}
 .dfoot{padding:16px 22px 20px;border-top:1px solid var(--line);display:grid;gap:8px;font-family:var(--f-ui);font-size:14px;font-variant-numeric:tabular-nums}
 .dfoot .r{display:flex;justify-content:space-between}
-.dfoot .tot{font-size:17px;font-weight:500}
+.dfoot .tot{font-size:17px;font-weight:500;padding-top:6px;border-top:1px solid var(--line)}
 .dfoot .btn{justify-content:center;margin-top:8px;font-size:12px}
 .note{font-size:13px;color:var(--cocoa);font-family:var(--f-ui)}
 
@@ -469,17 +472,20 @@ function renderCart(){
   if(!cart.length){body.innerHTML=`<p class="empty">Tu pedido está vacío. Elige una tarta de la carta.</p>`;foot.innerHTML=`<a class="btn solid" href="#carta" id="toMenu">Ver la carta</a>`;$('#toMenu').onclick=closeCart;return;}
   const hasWhole=cart.some(c=>c.s===1);
   body.innerHTML=cart.map((c,i)=>{const m=MENU.find(x=>x.id===c.id);return `<div class="line"><span class="n">${m.n}</span><span class="price">${fmt(m.p[c.s]*c.q)}</span>
-   <span class="m">${SIZES[c.s]}</span><span class="qty"><button data-q="${i}" data-d="-1" aria-label="Quitar uno">−</button>${c.q}<button data-q="${i}" data-d="1" aria-label="Añadir uno">+</button></span></div>`}).join('')+
+   <span class="m">${SIZES[c.s]}</span><span class="qty"><button data-q="${i}" data-d="-1" aria-label="Quitar uno">−</button>${c.q}<button data-q="${i}" data-d="1" aria-label="Añadir uno">+</button></span>
+   <label class="tmsg"><span>Mensaje en la tarta <i>(opcional)</i></span><input data-msg="${i}" maxlength="30" autocomplete="off" placeholder="Feliz cumpleaños, Lucía" value="${(c.msg||'').replace(/"/g,'&quot;')}"></label></div>`}).join('')+
    (hasWhole?'<p class="note" style="margin:14px 0 0">Las tartas enteras se hornean por encargo con 24 horas de anticipación.</p>':'');
-  foot.innerHTML=`<div class="r tot"><span>Subtotal</span><span>${fmt(subtotal())}</span></div><span class="note">Elige delivery o retiro en Piantini y paga en el siguiente paso.</span><button class="btn solid" id="place">Finalizar pedido</button>`;
+  const sub=subtotal(),itbis=Math.round(sub*.18);
+  foot.innerHTML=`<div class="r"><span>Subtotal</span><span>${fmt(sub)}</span></div><div class="r"><span>ITBIS 18%</span><span>${fmt(itbis)}</span></div><div class="r tot"><span>Total</span><span>${fmt(sub+itbis)}</span></div><span class="note">Elige el día y la hora, recoger en Piantini o delivery (RD$ 250 + ITBIS), y paga en el siguiente paso.</span><button class="btn solid" id="place">Finalizar pedido</button>`;
   $('#place').onclick=()=>{if(window.Brinco&&Brinco.checkout)Brinco.checkout()};
 }
+$('#dbody').addEventListener('input',e=>{const m=e.target.closest('[data-msg]');if(m){cart[+m.dataset.msg].msg=m.value.slice(0,30);save()}});
 $('#dbody').addEventListener('click',e=>{
   const q=e.target.closest('[data-q]');if(q){const c=cart[+q.dataset.q];c.q+=+q.dataset.d;if(c.q<1)cart.splice(+q.dataset.q,1);save();renderCart();}
 });
 /* Brinco Kit: el carrito de Almendra se expone al checkout compartido */
 window.BrincoCart={
-  items(){return cart.map(c=>{const m=MENU.find(x=>x.id===c.id);return{name:m.n,detail:SIZES[c.s],qty:c.q,unit:m.p[c.s],img:IMG[m.id]}})},
+  items(){return cart.map(c=>{const m=MENU.find(x=>x.id===c.id);const it={name:m.n,detail:SIZES[c.s],qty:c.q,unit:m.p[c.s],img:IMG[m.id]};const t=(c.msg||'').trim();if(t)it.nota='Mensaje en la tarta: '+t;return it})},
   total(){return subtotal()},
   clear(){cart=[];save();renderCart()},
   close(){closeCart()}

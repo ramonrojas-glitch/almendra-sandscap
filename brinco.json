@@ -15,14 +15,50 @@
   "prefijoOrden": "ALM",
   "moneda": "RD$",
   "envio": 250,
-  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 45, "deliveryMax": 60, "pickupMin": 20 },
-  "sectores": ["Piantini", "Naco", "Evaristo Morales", "Serrallés", "La Esperilla", "Paraíso", "Julieta Morales", "Los Cacicazgos", "Bella Vista", "Mirador Sur", "Gazcue", "Arroyo Hondo"],
+  "itbis": {
+    "incluido": false,
+    "tasa": 0.18
+  },
+  "entrega": {
+    "delivery": true,
+    "pickup": true,
+    "deliveryMin": 45,
+    "deliveryMax": 60,
+    "pickupMin": 20
+  },
+  "programar": {
+    "activo": true,
+    "anticipacionHoras": 24,
+    "horario": {
+      "apertura": "08:00",
+      "cierre": "19:00"
+    },
+    "dias": 7,
+    "intervaloMin": 30
+  },
+  "sectores": [
+    "Piantini",
+    "Naco",
+    "Evaristo Morales",
+    "Serrallés",
+    "La Esperilla",
+    "Paraíso",
+    "Julieta Morales",
+    "Los Cacicazgos",
+    "Bella Vista",
+    "Mirador Sur",
+    "Gazcue",
+    "Arroyo Hondo"
+  ],
   "tienda": {
     "direccion": "Calle Rafael Augusto Sánchez 41, Piantini",
     "ciudad": "Santo Domingo",
     "mapa": "https://maps.google.com/?q=Calle+Rafael+Augusto+S%C3%A1nchez+41,+Piantini,+Santo+Domingo"
   },
-  "producto": { "singular": "tarta", "plural": "tartas" },
+  "producto": {
+    "singular": "tarta",
+    "plural": "tartas"
+  },
   "etapas": {
     "preparando": "Preparando tu tarta",
     "coccion": "Montando tu tarta",
