@@ -70,5 +70,16 @@
     "correo": "[Correo]",
     "instagram": "[@usuario]"
   },
-  "idioma": "es"
+  "idioma": "es",
+  "catalogo": {
+    "productos": {
+      "fraises": { "0": 395, "1": 2450 },
+      "citron": { "0": 350, "1": 2150 },
+      "framboise": { "0": 425, "1": 2650 },
+      "pistache": { "0": 450, "1": 2800 },
+      "chocolat": { "0": 425, "1": 2600 },
+      "chinola": { "0": 375, "1": 2300 }
+    },
+    "extras": {}
+  }
 }

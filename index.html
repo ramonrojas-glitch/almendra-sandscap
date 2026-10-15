@@ -485,7 +485,7 @@ $('#dbody').addEventListener('click',e=>{
 });
 /* Brinco Kit: el carrito de Almendra se expone al checkout compartido */
 window.BrincoCart={
-  items(){return cart.map(c=>{const m=MENU.find(x=>x.id===c.id);const it={name:m.n,detail:SIZES[c.s],qty:c.q,unit:m.p[c.s],img:IMG[m.id]};const t=(c.msg||'').trim();if(t)it.nota='Mensaje en la tarta: '+t;return it})},
+  items(){return cart.map(c=>{const m=MENU.find(x=>x.id===c.id);const it={name:m.n,detail:SIZES[c.s],qty:c.q,unit:m.p[c.s],img:IMG[m.id],sku:{p:m.id,v:String(c.s)}};const t=(c.msg||'').trim();if(t)it.nota='Mensaje en la tarta: '+t;return it})},
   total(){return subtotal()},
   clear(){cart=[];save();renderCart()},
   close(){closeCart()}
